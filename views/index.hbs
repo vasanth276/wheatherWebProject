@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" action="/">
+        Enter city : <input name="place" type="text" id="place">
+        <button type="submit" style="width: 100px;" id="submitbtn">submit</button>
+    </form>
+    Temperature : <p id="citytemp"></p>'C
+    <script>
+        const city = document.getElementById('place');
+        const submitbtn = document.getElementById('submitbtn');
+        const getinfo = async(event)=>{
+            let cityval = city.value;
+            event.preventDefault();
+            if(cityval===''){
+                document.getElementById('citytemp').innerText='not available';
+            }
+            else{
+                let url = `http://api.openweathermap.org/data/2.5/weather?q=${cityval}&units=metric&appid=010d348d1f9c8df93420cca9adf85e52`;
+                const response = await fetch(url);
+                const data = await response.json();
+                const arrData = [data];
+                document.getElementById('citytemp').innerText=arrData[0].main.temp;
+                console.log(response);
+            }
+        }
+    submitbtn.addEventListener('click',getinfo)
+    </script>
+</body>
+</html>
